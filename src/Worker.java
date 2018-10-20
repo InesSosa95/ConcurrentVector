@@ -1,7 +1,7 @@
 public class Worker extends Thread {
 
 
-
-    public void run(){}
+    public void run() {
+    }
 
 }
