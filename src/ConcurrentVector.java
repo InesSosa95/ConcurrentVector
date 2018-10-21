@@ -1,66 +1,119 @@
 public class ConcurrentVector {
 
-    private int dimension;
-    private int threads;
+    private ThreadPool threadPool;
+
     private SequentialVector sequentialVector;
 
+    private Buffer buffer;
+
     public ConcurrentVector(int dimension, int threads) {
-        this.dimension = dimension;
-        this.threads = threads;
-        this.sequentialVector = new SequentialVector(dimension);
+        buffer = new Buffer(1000);
+        threadPool = new ThreadPool(threads, buffer);
+        sequentialVector = new SequentialVector(dimension);
     }
 
     public int dimension() {
         return this.sequentialVector.dimension();
     }
 
-    synchronized public double get(int i) {
+    public double get(int i) {
         return this.sequentialVector.get(i);
     }
 
-    synchronized public void set(int i, double d) {
-        this.sequentialVector.set(i, d);
+    public void set(int i, double d) {
+        sequentialVector.set(i, d);
     }
 
-    public void assign(SequentialVector vector) {
-        this.sequentialVector.assign(vector);
+    /**
+     * Inicio de métodos synchronized
+     */
+
+    synchronized public void set(double d) {
+        // TODO: implement set
+        sequentialVector.set(d);
     }
 
-    public void assign(SequentialVector mask, SequentialVector vector) {
-        this.sequentialVector.assign(mask, vector);
+    synchronized public void assign(SequentialVector v) {
+        // TODO: implement assign
+        sequentialVector.assign(v);
     }
 
-    public void add(SequentialVector vector) {
-        this.sequentialVector.add(vector);
+    synchronized public void assign(SequentialVector mask, SequentialVector v) {
+        // TODO: implement assign
+        sequentialVector.assign(mask, v);
     }
 
-    public void mul(SequentialVector vector) {
-        this.sequentialVector.mul(vector);
+    synchronized public void add(SequentialVector v) {
+        // TODO: implement add
+        sequentialVector.add(v);
     }
 
-    public void abs() {
-        this.sequentialVector.abs();
+    synchronized public void mul(SequentialVector v) {
+        // TODO: implement mul
+        sequentialVector.mul(v);
     }
 
-    public double sum() {
-        return this.sequentialVector.sum();
+    synchronized public void abs() {
+        // TODO: implement abs
+        sequentialVector.abs();
     }
 
-    public double mean() {
-        return this.sequentialVector.mean();
+    synchronized public double sum() {
+        // TODO: implement sum
+        return sequentialVector.sum();
     }
 
-    public double prod(SequentialVector v) {
-        return this.sequentialVector.prod(v);
+    synchronized public double avg() {
+        // TODO: implement mean
+        return sequentialVector.mean();
     }
 
-    public double norm() {
-        return this.sequentialVector.norm();
+    synchronized public double prod(SequentialVector v) {
+        // TODO: implement prod
+        return sequentialVector.prod(v);
     }
 
-    public double max() {
-        return this.sequentialVector.max();
+    synchronized public double norm() {
+        // TODO: implement norm
+        return sequentialVector.norm();
     }
 
+    synchronized public double max() {
+
+        int elementsPerTask = sequentialVector.dimension() / threadPool.dimension();
+        int module = sequentialVector.dimension() % threadPool.dimension();
+        if (module > 0) {
+            elementsPerTask += 1;
+        }
+
+        for (int i = 0; i < threadPool.dimension(); i++) {
+            int start = i * 2;
+            int end = start + elementsPerTask;
+
+            SequentialVector v;
+
+            if (i == threadPool.dimension() - 1) {
+                v = new SequentialVector(module);
+            } else {
+                v = new SequentialVector(elementsPerTask);
+            }
+
+            int pos = 0;
+
+            for (int j = start; j < end; j++) {
+                try {
+                    v.set(0, sequentialVector.get(pos));
+                    pos++;
+                } catch (ArrayIndexOutOfBoundsException ignored) {
+                }
+            }
+
+            Task task = new Task(Instruction.Max, v);
+            buffer.push(task);
+        }
+
+        return 1;
+//        return threadPool.result;
+    }
 
 }

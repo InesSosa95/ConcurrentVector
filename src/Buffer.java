@@ -1,16 +1,14 @@
 public class Buffer {
 
-    private int size;
-    private int[] buffer;
+    private Task[] buffer;
     private int nextAddition = 0;
     private int nextConsumption = 0;
 
     public Buffer(int size) {
-        this.size = size;
-        this.buffer = new int[size];
+        this.buffer = new Task[size];
     }
 
-    public synchronized void push(int i) {
+    public synchronized void push(Task t) {
         while (this.isFull()) {
             try {
                 wait();
@@ -18,12 +16,12 @@ public class Buffer {
                 e.printStackTrace();
             }
         }
-        this.buffer[this.nextAddition] = i;
+        this.buffer[this.nextAddition] = t;
         this.nextAddition = this.next(this.nextAddition);
         this.notify();
     }
 
-    public synchronized int pop() {
+    public synchronized Task pop() {
         while (this.isEmpty()) {
             try {
                 wait();
@@ -31,7 +29,7 @@ public class Buffer {
                 e.printStackTrace();
             }
         }
-        int result = this.buffer[this.nextConsumption];
+        Task result = this.buffer[this.nextConsumption];
         this.nextConsumption = this.next(this.nextConsumption);
         this.notify();
         return result;
@@ -46,6 +44,10 @@ public class Buffer {
     }
 
     private int next(int i) {
-        return (i + 1) % this.size;
+        return (i + 1) % this.buffer.length;
+    }
+
+    public int dimension() {
+        return buffer.length;
     }
 }
