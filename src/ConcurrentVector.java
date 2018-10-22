@@ -81,21 +81,21 @@ public class ConcurrentVector {
     synchronized public double max() {
 
         int elementsPerTask = elementsPerTask();
-        if (modulus() > 0) {
-            elementsPerTask += 1;
-        }
 
         for (int i = 0; i < threadPool.dimension(); i++) {
-            int start = i * 2;
-            int end = start + elementsPerTask - 1;
-
             SequentialVector v;
+            int start = i * elementsPerTask;
+            int end;
 
             if (modulus() > 0 && i == threadPool.dimension() - 1) {
-                v = new SequentialVector(modulus());
+                int vectorSize = sequentialVector.dimension() - ((threadPool.dimension() - 1) * elementsPerTask);
+                v = new SequentialVector(vectorSize);
+                end = start + vectorSize - 1;
             } else {
                 v = new SequentialVector(elementsPerTask);
+                end = start + elementsPerTask - 1;
             }
+
 
             int pos = 0;
 
@@ -108,6 +108,7 @@ public class ConcurrentVector {
                 }
             }
 
+            System.out.println(v.dimension());
             Task task = new Task(Instruction.Max, v);
             buffer.push(task);
         }
