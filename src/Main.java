@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        ConcurrentVector c = new ConcurrentVector(5, 5);
+        ConcurrentVector c = new ConcurrentVector(5, 1);
 
         c.set(0, 10);
         c.set(1, 20);

@@ -83,32 +83,28 @@ public class ConcurrentVector {
         int elementsPerTask = elementsPerTask();
 
         for (int i = 0; i < threadPool.dimension(); i++) {
-            SequentialVector v;
             int start = i * elementsPerTask;
             int end;
+            int vectorSize;
 
-            if (modulus() > 0 && i == threadPool.dimension() - 1) {
-                int vectorSize = sequentialVector.dimension() - ((threadPool.dimension() - 1) * elementsPerTask);
-                v = new SequentialVector(vectorSize);
+            if (hasModulus() && isLastIteration(i, threadPool.dimension())) {
+                int elementsUpToNow = (threadPool.dimension() - 1) * elementsPerTask;
+                vectorSize = sequentialVector.dimension() - elementsUpToNow;
                 end = start + vectorSize - 1;
             } else {
-                v = new SequentialVector(elementsPerTask);
+                vectorSize = elementsPerTask;
                 end = start + elementsPerTask - 1;
             }
 
-
+            SequentialVector v = new SequentialVector(vectorSize);
             int pos = 0;
 
             for (int j = start; j <= end; j++) {
-                try {
-                    double val = sequentialVector.get(j);
-                    v.set(pos, val);
-                    pos++;
-                } catch (ArrayIndexOutOfBoundsException ignored) {
-                }
+                double val = sequentialVector.get(j);
+                v.set(pos, val);
+                pos++;
             }
 
-            System.out.println(v.dimension());
             Task task = new Task(Instruction.Max, v);
             buffer.push(task);
         }
@@ -123,8 +119,12 @@ public class ConcurrentVector {
         return sequentialVector.dimension() / threadPool.dimension();
     }
 
-    private int modulus() {
-        return sequentialVector.dimension() % threadPool.dimension();
+    private boolean hasModulus() {
+        return (sequentialVector.dimension() % threadPool.dimension()) > 0;
+    }
+
+    private boolean isLastIteration(int i, int totalLength) {
+        return (i + 1) == totalLength;
     }
 
 }
