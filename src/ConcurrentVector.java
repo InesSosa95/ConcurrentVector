@@ -80,29 +80,29 @@ public class ConcurrentVector {
 
     synchronized public double max() {
 
-        int elementsPerTask = sequentialVector.dimension() / threadPool.dimension();
-        int module = sequentialVector.dimension() % threadPool.dimension();
-        if (module > 0) {
+        int elementsPerTask = elementsPerTask();
+        if (modulus() > 0) {
             elementsPerTask += 1;
         }
 
         for (int i = 0; i < threadPool.dimension(); i++) {
             int start = i * 2;
-            int end = start + elementsPerTask;
+            int end = start + elementsPerTask - 1;
 
             SequentialVector v;
 
-            if (i == threadPool.dimension() - 1) {
-                v = new SequentialVector(module);
+            if (modulus() > 0 && i == threadPool.dimension() - 1) {
+                v = new SequentialVector(modulus());
             } else {
                 v = new SequentialVector(elementsPerTask);
             }
 
             int pos = 0;
 
-            for (int j = start; j < end; j++) {
+            for (int j = start; j <= end; j++) {
                 try {
-                    v.set(0, sequentialVector.get(pos));
+                    double val = sequentialVector.get(j);
+                    v.set(pos, val);
                     pos++;
                 } catch (ArrayIndexOutOfBoundsException ignored) {
                 }
@@ -112,8 +112,18 @@ public class ConcurrentVector {
             buffer.push(task);
         }
 
-        return 1;
-//        return threadPool.result;
+        return 1; // TODO: Debería retornar el resultado
+    }
+
+    /*
+     * Auxiliar methods
+     */
+    private int elementsPerTask() {
+        return sequentialVector.dimension() / threadPool.dimension();
+    }
+
+    private int modulus() {
+        return sequentialVector.dimension() % threadPool.dimension();
     }
 
 }
