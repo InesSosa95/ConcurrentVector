@@ -6,7 +6,6 @@ public class Main {
         c.set(1, 20);
         c.set(2, 30);
         c.set(3, 40);
-//        c.set(4, 50);
 
         c.set(1);
     }

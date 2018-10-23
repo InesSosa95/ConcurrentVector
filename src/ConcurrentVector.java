@@ -38,7 +38,7 @@ public class ConcurrentVector {
     synchronized public void set(double d) {
         int elementsPerTask = elementsPerTask();
 
-        threadsToExecute = threadPool.dimension();
+        threadPool.setWorkToDo(threadPool.dimension());
 
         for (int i = 0; i < threadPool.dimension(); i++) {
             int start = i * elementsPerTask;
@@ -67,7 +67,7 @@ public class ConcurrentVector {
             buffer.push(task);
         }
 
-        while (isExecuting()) {
+        while (threadPool.isExecuting()) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -76,6 +76,7 @@ public class ConcurrentVector {
         }
 
         int cont = 0;
+        
         for (SequentialVector resultVector : threadPool.resultVectors()) {
             for (int i = 0; i < resultVector.dimension(); i++) {
                 this.set(cont, resultVector.get(i));
@@ -83,8 +84,7 @@ public class ConcurrentVector {
             }
         }
 
-
-        // threadPool.resetExecution();
+        threadPool.resetExecution();
     }
 
     synchronized public void assign(SequentialVector v) {
@@ -139,13 +139,6 @@ public class ConcurrentVector {
     /*
      * Auxiliar methods
      */
-    private boolean isExecuting() {
-        return threadsToExecute > 0 && threadsToExecute != threadsExecuted;
-    }
-
-    private boolean finishedExecuting() {
-        return threadsToExecute > 0 && threadsToExecute == threadsExecuted;
-    }
 
     private int elementsPerTask() {
         return sequentialVector.dimension() / threadPool.dimension();
@@ -159,14 +152,7 @@ public class ConcurrentVector {
         return (i + 1) == totalLength;
     }
 
-    public void _notify() {
+    public synchronized void _notify() {
         notifyAll();
-    }
-
-    public synchronized void increaseWorkDone() {
-        threadsExecuted++;
-        if (finishedExecuting()) {
-            notifyAll();
-        }
     }
 }

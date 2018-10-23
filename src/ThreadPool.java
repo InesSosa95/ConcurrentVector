@@ -6,7 +6,8 @@ public class ThreadPool {
 
     private Buffer buffer;
 
-
+    private int workToDo;
+    private int workDone;
 
     private ArrayList<SequentialVector> resultVectors;
 
@@ -14,6 +15,7 @@ public class ThreadPool {
 
     public ThreadPool(int threads, Buffer buffer, ConcurrentVector concurrentVector) {
         this.concurrentVector = concurrentVector;
+
         resultVectors = new ArrayList<SequentialVector>();
 
         workers = new Worker[threads];
@@ -29,7 +31,10 @@ public class ThreadPool {
     }
 
     public void increaseWorkDone() {
-        concurrentVector.increaseWorkDone();
+        workDone++;
+        if (finishedExecuting()) {
+            concurrentVector._notify();
+        }
     }
 
     public void addResultVector(SequentialVector resultVector) {
@@ -38,5 +43,35 @@ public class ThreadPool {
 
     public ArrayList<SequentialVector> resultVectors() {
         return resultVectors;
+    }
+
+    public boolean isExecuting() {
+        return workToDo > 0 && workToDo != workDone;
+    }
+
+
+    private boolean finishedExecuting() {
+        return workToDo > 0 && workToDo == workDone;
+    }
+
+    public int getWorkToDo() {
+        return workToDo;
+    }
+
+    public void setWorkToDo(int workToDo) {
+        this.workToDo = workToDo;
+    }
+
+    public int getWorkDone() {
+        return workDone;
+    }
+
+    public void setWorkDone(int workDone) {
+        this.workDone = workDone;
+    }
+
+    public void resetExecution() {
+        workDone = 0;
+        workToDo = 0;
     }
 }
