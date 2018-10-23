@@ -1,14 +1,25 @@
 public class Worker extends Thread {
 
-    Buffer buffer;
+    private Buffer buffer;
 
-    public Worker(Buffer b) {
+    private ThreadPool pool;
+
+    public Worker(Buffer b, ThreadPool pool) {
         buffer = b;
+        this.pool = pool;
     }
 
     public void run() {
-        Task task = buffer.pop();
-
+        while (true) {
+            Task task = buffer.pop();
+            switch (task.instruction()) {
+                case Set:
+                    task.sequentialVector().set(task.parameter());
+                    pool.addResultVector(task.sequentialVector());
+                    break;
+            }
+            pool.increaseWorkDone();
+        }
     }
 
 }
