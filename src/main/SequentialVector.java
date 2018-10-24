@@ -1,3 +1,5 @@
+package main;
+
 public class SequentialVector {
 
     /**
@@ -12,7 +14,7 @@ public class SequentialVector {
 
 
     /**
-     * Constructor del SequentialVector.
+     * Constructor del main.SequentialVector.
      *
      * @param size, la longitud del vector.
      * @precondition size > 0.

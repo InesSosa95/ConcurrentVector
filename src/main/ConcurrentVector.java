@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package main;
 
 public class ConcurrentVector {
 
@@ -11,7 +11,7 @@ public class ConcurrentVector {
     private int threadsToExecute;
     private int threadsExecuted;
 
-    public ConcurrentVector(int dimension, int threads) {
+    public  ConcurrentVector(int dimension, int threads) {
         threadsToExecute = 0;
         threadsExecuted = 0;
         buffer = new Buffer(1000);
