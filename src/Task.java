@@ -1,5 +1,3 @@
-package main;
-
 public class Task {
 
     private Instruction instruction;
