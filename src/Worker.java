@@ -46,6 +46,9 @@ public class Worker extends Thread {
                 case Max:
                     pool.addResultDoubles(task.sequentialVector().max());
                     break;
+                case Norm:
+                    pool.addResultDoubles(task.sequentialVector().norm());
+                    break;
             }
             pool.increaseWorkDone();
         }

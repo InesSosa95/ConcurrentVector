@@ -94,12 +94,27 @@ public class Main {
 //        c.set(2, 6);
 //        c.set(3, 6);
 //        double mean = c.mean();
+
         // Max
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        c.set(0, 1);
+//        c.set(1, 5);
+//        c.set(2, 3);
+//        c.set(3, 9);
+//        double max = c.max();
+
+        SequentialVector s = new SequentialVector(4);
+        s.set(0, 10);
+        s.set(1, 13);
+        s.set(2, 25);
+        s.set(3, 55);
+        double sNorm = s.norm();
+
         ConcurrentVector c = new ConcurrentVector(4, 2);
-        c.set(0, 1);
-        c.set(1, 5);
-        c.set(2, 3);
-        c.set(3, 9);
-        double max = c.max();
+        c.set(0, 10);
+        c.set(1, 13);
+        c.set(2, 25);
+        c.set(3, 55);
+        double cNorm = c.norm();
     }
 }
