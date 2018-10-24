@@ -10,6 +10,7 @@ public class ThreadPool {
     private int workDone;
 
     private ArrayList<SequentialVector> resultVectors;
+    private ArrayList<Double> resultDoubles;
 
     private ConcurrentVector concurrentVector;
 
@@ -17,6 +18,7 @@ public class ThreadPool {
         this.concurrentVector = concurrentVector;
 
         resultVectors = new ArrayList<SequentialVector>();
+        resultDoubles = new ArrayList<Double>();
 
         workers = new Worker[threads];
         this.buffer = buffer;
@@ -41,6 +43,14 @@ public class ThreadPool {
         resultVectors.add(resultVector);
     }
 
+    public void addResultDoubles(double d) {
+        resultDoubles.add(d);
+    }
+
+    public ArrayList<Double> resultDoubles() {
+        return resultDoubles;
+    }
+
     public ArrayList<SequentialVector> resultVectors() {
         return resultVectors;
     }
@@ -53,20 +63,8 @@ public class ThreadPool {
         return workToDo > 0 && workToDo == workDone;
     }
 
-    public int getWorkToDo() {
-        return workToDo;
-    }
-
     public void setWorkToDo(int workToDo) {
         this.workToDo = workToDo;
-    }
-
-    public int getWorkDone() {
-        return workDone;
-    }
-
-    public void setWorkDone(int workDone) {
-        this.workDone = workDone;
     }
 
     public void resetExecution() {

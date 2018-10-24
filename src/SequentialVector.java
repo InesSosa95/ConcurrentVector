@@ -134,7 +134,7 @@ public class SequentialVector {
     /**
      * Obtiene la suma de todos los valores del vector.
      */
-    public double sum() {
+    public double   sum() {
         double result = 0;
         for (int i = 0; i < dimension(); ++i)
             result += get(i);

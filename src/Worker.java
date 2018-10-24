@@ -37,6 +37,12 @@ public class Worker extends Thread {
                     task.sequentialVector().assign(task.maskVector(), task.parameterVector());
                     pool.addResultVector(task.sequentialVector());
                     break;
+                case Sum:
+                    pool.addResultDoubles(task.sequentialVector().sum());
+                    break;
+                case Mean:
+                    pool.addResultDoubles(task.sequentialVector().mean());
+                    break;
             }
             pool.increaseWorkDone();
         }
