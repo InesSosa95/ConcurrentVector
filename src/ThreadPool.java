@@ -49,7 +49,6 @@ public class ThreadPool {
         return workToDo > 0 && workToDo != workDone;
     }
 
-
     private boolean finishedExecuting() {
         return workToDo > 0 && workToDo == workDone;
     }
