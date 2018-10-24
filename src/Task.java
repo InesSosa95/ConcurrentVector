@@ -17,6 +17,11 @@ public class Task {
         this.parameterVector = anotherVector;
     }
 
+    public Task(Instruction i, SequentialVector v) {
+        this.instruction = i;
+        this.sequentialVector = v;
+    }
+
     public double parameter() {
         return parameter;
     }

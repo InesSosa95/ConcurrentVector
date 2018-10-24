@@ -157,8 +157,55 @@ public class ConcurrentVector {
     }
 
     synchronized public void abs() {
-        // TODO: implement abs
-        sequentialVector.abs();
+        int elementsPerTask = elementsPerTask();
+
+        threadPool.setWorkToDo(threadPool.dimension());
+
+        for (int i = 0; i < threadPool.dimension(); i++) {
+            int start = i * elementsPerTask;
+            int end;
+            int vectorSize;
+
+            if (hasModulus() && isLastIteration(i, threadPool.dimension())) {
+                int elementsUpToNow = (threadPool.dimension() - 1) * elementsPerTask;
+                vectorSize = sequentialVector.dimension() - elementsUpToNow;
+                end = start + vectorSize - 1;
+            } else {
+                vectorSize = elementsPerTask;
+                end = start + elementsPerTask - 1;
+            }
+
+            SequentialVector v = new SequentialVector(vectorSize);
+            int pos = 0;
+
+            for (int j = start; j <= end; j++) {
+                double val = sequentialVector.get(j);
+                v.set(pos, val);
+                pos++;
+            }
+
+            Task task = new Task(Instruction.Abs, v);
+            buffer.push(task);
+        }
+
+        while (threadPool.isExecuting()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int cont = 0;
+
+        for (SequentialVector resultVector : threadPool.resultVectors()) {
+            for (int i = 0; i < resultVector.dimension(); i++) {
+                this.set(cont, resultVector.get(i));
+                cont++;
+            }
+        }
+
+        threadPool.resetExecution();
     }
 
     synchronized public double sum() {
