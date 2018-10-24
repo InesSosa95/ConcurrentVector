@@ -489,8 +489,65 @@ public class ConcurrentVector {
     }
 
     synchronized public double max() {
-        // TODO: implement max
-        return 1;
+        if (sequentialVector.dimension() <= threadPool.dimension()) {
+            threadPool.setWorkToDo(1);
+            SequentialVector v = new SequentialVector(sequentialVector.dimension());
+            for (int i = 0; i < sequentialVector.dimension(); i++) {
+                v.set(i, sequentialVector.get(i));
+            }
+            Task task = new Task(Instruction.Max, v);
+            buffer.push(task);
+        } else {
+            int elementsPerTask = elementsPerTask();
+
+            threadPool.setWorkToDo(threadPool.dimension());
+
+            for (int i = 0; i < threadPool.dimension(); i++) {
+                int start = i * elementsPerTask;
+                int end;
+                int vectorSize;
+
+                if (hasModulus() && isLastIteration(i, threadPool.dimension())) {
+                    int elementsUpToNow = (threadPool.dimension() - 1) * elementsPerTask;
+                    vectorSize = sequentialVector.dimension() - elementsUpToNow;
+                    end = start + vectorSize - 1;
+                } else {
+                    vectorSize = elementsPerTask;
+                    end = start + elementsPerTask - 1;
+                }
+
+                SequentialVector v = new SequentialVector(vectorSize);
+                int pos = 0;
+
+                for (int j = start; j <= end; j++) {
+                    double val = sequentialVector.get(j);
+                    v.set(pos, val);
+                    pos++;
+                }
+
+                Task task = new Task(Instruction.Max, v);
+                buffer.push(task);
+            }
+        }
+
+        while (threadPool.isExecuting()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ConcurrentVector doublesVector = buildConcurrentVectorFromDoublesArray(threadPool.resultDoubles(), threadPool.dimension());
+
+        threadPool.resetExecution();
+
+        if (doublesVector.dimension() > 1) {
+            return doublesVector.max();
+
+        }
+
+        return doublesVector.get(0);
     }
 
     /*

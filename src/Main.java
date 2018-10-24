@@ -88,11 +88,18 @@ public class Main {
 //        double sum = c.sum();
 
         // Sum
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        c.set(0, 8);
+//        c.set(1, 8);
+//        c.set(2, 6);
+//        c.set(3, 6);
+//        double mean = c.mean();
+        // Max
         ConcurrentVector c = new ConcurrentVector(4, 2);
-        c.set(0, 8);
-        c.set(1, 8);
-        c.set(2, 6);
-        c.set(3, 6);
-        double mean = c.mean();
+        c.set(0, 1);
+        c.set(1, 5);
+        c.set(2, 3);
+        c.set(3, 9);
+        double max = c.max();
     }
 }
