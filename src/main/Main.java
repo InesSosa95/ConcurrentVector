@@ -1,7 +1,9 @@
+package main;
+
 public class Main {
     public static void main(String[] args) {
         // Set
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //
 //        c.set(0, 10);
 //        c.set(1, 20);
@@ -11,12 +13,12 @@ public class Main {
 //        c.set(1);
 
         // Add
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 10);
 //        c.set(1, 20);
 //        c.set(2, 30);
 //        c.set(3, 40);
-//        SequentialVector s = new SequentialVector(4);
+//        main.SequentialVector s = new main.SequentialVector(4);
 //        s.set(0, 3);
 //        s.set(1, 6);
 //        s.set(2, 9);
@@ -24,7 +26,7 @@ public class Main {
 //        c.add(s);
 
 //        Abs
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //
 //        c.set(0, -10);
 //        c.set(1, 20);
@@ -34,12 +36,12 @@ public class Main {
 //        c.abs();
 
         // Add
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 10);
 //        c.set(1, 20);
 //        c.set(2, 30);
 //        c.set(3, 40);
-//        SequentialVector s = new SequentialVector(4);
+//        main.SequentialVector s = new main.SequentialVector(4);
 //        s.set(0, 3);
 //        s.set(1, 6);
 //        s.set(2, 9);
@@ -48,12 +50,12 @@ public class Main {
 
         // Assign
 //
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 10);
 //        c.set(1, 20);
 //        c.set(2, 30);
 //        c.set(3, 40);
-//        SequentialVector s = new SequentialVector(4);
+//        main.SequentialVector s = new main.SequentialVector(4);
 //        s.set(0, 3);
 //        s.set(1, 6);
 //        s.set(2, 9);
@@ -62,17 +64,17 @@ public class Main {
 
         // Assign
 //
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 10);
 //        c.set(1, 20);
 //        c.set(2, 30);
 //        c.set(3, 40);
-//        SequentialVector s = new SequentialVector(4);
+//        main.SequentialVector s = new main.SequentialVector(4);
 //        s.set(0, 3);
 //        s.set(1, 6);
 //        s.set(2, 9);
 //        s.set(3, 9);
-//        SequentialVector m = new SequentialVector(4);
+//        main.SequentialVector m = new main.SequentialVector(4);
 //        m.set(0, -1);
 //        m.set(1, 1);
 //        m.set(2, -1);
@@ -80,7 +82,7 @@ public class Main {
 //        c.assign(m, s);
 
         // Sum
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 15);
 //        c.set(1, 15);
 //        c.set(2, 15);
@@ -88,7 +90,7 @@ public class Main {
 //        double sum = c.sum();
 
         // Sum
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 8);
 //        c.set(1, 8);
 //        c.set(2, 6);
@@ -96,7 +98,7 @@ public class Main {
 //        double mean = c.mean();
 
         // Max
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 1);
 //        c.set(1, 5);
 //        c.set(2, 3);
@@ -104,14 +106,14 @@ public class Main {
 //        double max = c.max();
 
         // Norm
-//        SequentialVector s = new SequentialVector(4);
+//        main.SequentialVector s = new main.SequentialVector(4);
 //        s.set(0, 10);
 //        s.set(1, 13);
 //        s.set(2, 25);
 //        s.set(3, 55);
 //        double sNorm = s.norm();
 //
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        main.ConcurrentVector c = new main.ConcurrentVector(4, 2);
 //        c.set(0, 10);
 //        c.set(1, 13);
 //        c.set(2, 25);

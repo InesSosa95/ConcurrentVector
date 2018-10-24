@@ -1,3 +1,5 @@
+package main;
+
 public class Worker extends Thread {
 
     private Buffer buffer;
