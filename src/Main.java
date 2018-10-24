@@ -103,18 +103,41 @@ public class Main {
 //        c.set(3, 9);
 //        double max = c.max();
 
+        // Norm
+//        SequentialVector s = new SequentialVector(4);
+//        s.set(0, 10);
+//        s.set(1, 13);
+//        s.set(2, 25);
+//        s.set(3, 55);
+//        double sNorm = s.norm();
+//
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        c.set(0, 10);
+//        c.set(1, 13);
+//        c.set(2, 25);
+//        c.set(3, 55);
+//        double cNorm = c.norm();
+
+        // Prod
         SequentialVector s = new SequentialVector(4);
-        s.set(0, 10);
-        s.set(1, 13);
-        s.set(2, 25);
-        s.set(3, 55);
-        double sNorm = s.norm();
+        s.set(0, 1);
+        s.set(1, 2);
+        s.set(2, 3);
+        s.set(3, 4);
+
+        SequentialVector ss = new SequentialVector(4);
+        ss.set(0, 1);
+        ss.set(1, 2);
+        ss.set(2, 3);
+        ss.set(3, 4);
+
+        double prodA = s.prod(ss);
 
         ConcurrentVector c = new ConcurrentVector(4, 2);
-        c.set(0, 10);
-        c.set(1, 13);
-        c.set(2, 25);
-        c.set(3, 55);
-        double cNorm = c.norm();
+        c.set(0, 1);
+        c.set(1, 2);
+        c.set(2, 3);
+        c.set(3, 4);
+        double prodB = c.prod(s);
     }
 }

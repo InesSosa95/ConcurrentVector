@@ -479,8 +479,58 @@ public class ConcurrentVector {
     }
 
     synchronized public double prod(SequentialVector v) {
-        // TODO: implement prod
-        return sequentialVector.prod(v);
+
+        if (sequentialVector.dimension() <= threadPool.dimension()) {
+            threadPool.setWorkToDo(1);
+            Task task = new Task(Instruction.Prod, sequentialVector, v);
+            buffer.push(task);
+        } else {
+            int elementsPerTask = elementsPerTask();
+
+            threadPool.setWorkToDo(threadPool.dimension());
+
+            for (int i = 0; i < threadPool.dimension(); i++) {
+                int start = i * elementsPerTask;
+                int end;
+                int vectorSize;
+
+                if (hasModulus() && isLastIteration(i, threadPool.dimension())) {
+                    int elementsUpToNow = (threadPool.dimension() - 1) * elementsPerTask;
+                    vectorSize = sequentialVector.dimension() - elementsUpToNow;
+                    end = start + vectorSize - 1;
+                } else {
+                    vectorSize = elementsPerTask;
+                    end = start + elementsPerTask - 1;
+                }
+
+                SequentialVector selfSlice = new SequentialVector(vectorSize);
+                SequentialVector otherSlice = new SequentialVector(vectorSize);
+                int pos = 0;
+
+                for (int j = start; j <= end; j++) {
+                    selfSlice.set(pos, sequentialVector.get(j));
+                    otherSlice.set(pos, v.get(j));
+                    pos++;
+                }
+
+                Task task = new Task(Instruction.Prod, selfSlice, otherSlice);
+                buffer.push(task);
+            }
+        }
+
+        while (threadPool.isExecuting()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ConcurrentVector doublesVector = buildConcurrentVectorFromDoublesArray(threadPool.resultDoubles(), threadPool.dimension());
+
+        threadPool.resetExecution();
+
+        return doublesVector.sum();
     }
 
     synchronized public double norm() {

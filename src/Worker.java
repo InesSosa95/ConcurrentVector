@@ -49,6 +49,13 @@ public class Worker extends Thread {
                 case Norm:
                     pool.addResultDoubles(task.sequentialVector().norm());
                     break;
+                case Prod:
+                    pool.addResultDoubles(
+                            task.sequentialVector().prod(
+                                    task.parameterVector()
+                            )
+                    );
+                    break;
             }
             pool.increaseWorkDone();
         }
