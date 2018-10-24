@@ -36,6 +36,7 @@ public class ConcurrentVector {
      */
 
     synchronized public void set(double d) {
+
         int elementsPerTask = elementsPerTask();
 
         threadPool.setWorkToDo(threadPool.dimension());
@@ -76,7 +77,7 @@ public class ConcurrentVector {
         }
 
         int cont = 0;
-        
+
         for (SequentialVector resultVector : threadPool.resultVectors()) {
             for (int i = 0; i < resultVector.dimension(); i++) {
                 this.set(cont, resultVector.get(i));
@@ -98,8 +99,56 @@ public class ConcurrentVector {
     }
 
     synchronized public void add(SequentialVector v) {
-        // TODO: implement add
-        sequentialVector.add(v);
+        int elementsPerTask = elementsPerTask();
+
+        threadPool.setWorkToDo(threadPool.dimension());
+
+        for (int i = 0; i < threadPool.dimension(); i++) {
+            int start = i * elementsPerTask;
+            int end;
+            int vectorSize;
+
+            if (hasModulus() && isLastIteration(i, threadPool.dimension())) {
+                int elementsUpToNow = (threadPool.dimension() - 1) * elementsPerTask;
+                vectorSize = sequentialVector.dimension() - elementsUpToNow;
+                end = start + vectorSize - 1;
+            } else {
+                vectorSize = elementsPerTask;
+                end = start + elementsPerTask - 1;
+            }
+
+            SequentialVector selfSlice = new SequentialVector(vectorSize);
+            SequentialVector otherSlice = new SequentialVector(vectorSize);
+            int pos = 0;
+
+            for (int j = start; j <= end; j++) {
+                selfSlice.set(pos, sequentialVector.get(j));
+                otherSlice.set(pos, v.get(j));
+                pos++;
+            }
+
+            Task task = new Task(Instruction.Add, selfSlice, otherSlice);
+            buffer.push(task);
+        }
+
+        while (threadPool.isExecuting()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int cont = 0;
+
+        for (SequentialVector resultVector : threadPool.resultVectors()) {
+            for (int i = 0; i < resultVector.dimension(); i++) {
+                this.set(cont, resultVector.get(i));
+                cont++;
+            }
+        }
+
+        threadPool.resetExecution();
     }
 
     synchronized public void mul(SequentialVector v) {
@@ -133,13 +182,13 @@ public class ConcurrentVector {
     }
 
     synchronized public double max() {
+        // TODO: implement max
         return 1;
     }
 
     /*
      * Auxiliar methods
      */
-
     private int elementsPerTask() {
         return sequentialVector.dimension() / threadPool.dimension();
     }

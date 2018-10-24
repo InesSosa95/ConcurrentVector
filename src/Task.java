@@ -3,6 +3,7 @@ public class Task {
     private Instruction instruction;
     private SequentialVector sequentialVector;
     private double parameter;
+    private SequentialVector parameterVector;
 
     public Task(Instruction i, SequentialVector v, double d) {
         this.instruction = i;
@@ -10,8 +11,18 @@ public class Task {
         this.parameter = d;
     }
 
+    public Task(Instruction i, SequentialVector aVector, SequentialVector anotherVector) {
+        this.instruction = i;
+        this.sequentialVector = aVector;
+        this.parameterVector = anotherVector;
+    }
+
     public double parameter() {
         return parameter;
+    }
+
+    public SequentialVector parameterVector() {
+        return parameterVector;
     }
 
     public Instruction instruction() {
