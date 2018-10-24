@@ -25,6 +25,14 @@ public class Worker extends Thread {
                     task.sequentialVector().abs();
                     pool.addResultVector(task.sequentialVector());
                     break;
+                case Mul:
+                    task.sequentialVector().mul(task.parameterVector());
+                    pool.addResultVector(task.sequentialVector());
+                    break;
+                case Assign:
+                    task.sequentialVector().assign(task.parameterVector());
+                    pool.addResultVector(task.sequentialVector());
+                    break;
             }
             pool.increaseWorkDone();
         }

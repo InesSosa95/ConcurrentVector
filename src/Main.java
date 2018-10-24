@@ -24,13 +24,40 @@ public class Main {
 //        c.add(s);
 
 //        Abs
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//
+//        c.set(0, -10);
+//        c.set(1, 20);
+//        c.set(2, -30);
+//        c.set(3, 40);
+//
+//        c.abs();
+
+        // Add
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        c.set(0, 10);
+//        c.set(1, 20);
+//        c.set(2, 30);
+//        c.set(3, 40);
+//        SequentialVector s = new SequentialVector(4);
+//        s.set(0, 3);
+//        s.set(1, 6);
+//        s.set(2, 9);
+//        s.set(3, 9);
+//        c.mul(s);
+
+        // Assign
+
         ConcurrentVector c = new ConcurrentVector(4, 2);
-
-        c.set(0, -10);
+        c.set(0, 10);
         c.set(1, 20);
-        c.set(2, -30);
+        c.set(2, 30);
         c.set(3, 40);
-
-        c.abs();
+        SequentialVector s = new SequentialVector(4);
+        s.set(0, 3);
+        s.set(1, 6);
+        s.set(2, 9);
+        s.set(3, 9);
+        c.assign(s);
     }
 }
