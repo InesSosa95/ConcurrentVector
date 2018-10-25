@@ -10,44 +10,7 @@ public class Main {
 //
 //        c.set(1);
 
-        // Add
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
-//        c.set(0, 10);
-//        c.set(1, 20);
-//        c.set(2, 30);
-//        c.set(3, 40);
-//        SequentialVector s = new SequentialVector(4);
-//        s.set(0, 3);
-//        s.set(1, 6);
-//        s.set(2, 9);
-//        s.set(3, 9);
-//        c.add(s);
-
-//        Abs
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
-//
-//        c.set(0, -10);
-//        c.set(1, 20);
-//        c.set(2, -30);
-//        c.set(3, 40);
-//
-//        c.abs();
-
-        // Add
-//        ConcurrentVector c = new ConcurrentVector(4, 2);
-//        c.set(0, 10);
-//        c.set(1, 20);
-//        c.set(2, 30);
-//        c.set(3, 40);
-//        SequentialVector s = new SequentialVector(4);
-//        s.set(0, 3);
-//        s.set(1, 6);
-//        s.set(2, 9);
-//        s.set(3, 9);
-//        c.mul(s);
-
         // Assign
-//
 //        ConcurrentVector c = new ConcurrentVector(4, 2);
 //        c.set(0, 10);
 //        c.set(1, 20);
@@ -61,7 +24,6 @@ public class Main {
 //        c.assign(s);
 
         // Assign
-//
 //        ConcurrentVector c = new ConcurrentVector(4, 2);
 //        c.set(0, 10);
 //        c.set(1, 20);
@@ -79,6 +41,42 @@ public class Main {
 //        m.set(3, 1);
 //        c.assign(m, s);
 
+        // Add
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        c.set(0, 10);
+//        c.set(1, 20);
+//        c.set(2, 30);
+//        c.set(3, 40);
+//        SequentialVector s = new SequentialVector(4);
+//        s.set(0, 3);
+//        s.set(1, 6);
+//        s.set(2, 9);
+//        s.set(3, 9);
+//        c.add(s);
+
+        // Mul
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        c.set(0, 10);
+//        c.set(1, 20);
+//        c.set(2, 30);
+//        c.set(3, 40);
+//        SequentialVector s = new SequentialVector(4);
+//        s.set(0, 3);
+//        s.set(1, 6);
+//        s.set(2, 9);
+//        s.set(3, 9);
+//        c.mul(s);
+
+//        Abs
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//
+//        c.set(0, -10);
+//        c.set(1, 20);
+//        c.set(2, -30);
+//        c.set(3, 40);
+//
+//        c.abs();
+
         // Sum
 //        ConcurrentVector c = new ConcurrentVector(4, 2);
 //        c.set(0, 15);
@@ -87,7 +85,7 @@ public class Main {
 //        c.set(3, 15);
 //        double sum = c.sum();
 
-        // Sum
+        // mean
 //        ConcurrentVector c = new ConcurrentVector(4, 2);
 //        c.set(0, 8);
 //        c.set(1, 8);
@@ -95,13 +93,19 @@ public class Main {
 //        c.set(3, 6);
 //        double mean = c.mean();
 
-        // Max
+        // Prod
+//        SequentialVector s = new SequentialVector(4);
+//        s.set(0, 1);
+//        s.set(1, 2);
+//        s.set(2, 3);
+//        s.set(3, 4);
+//
 //        ConcurrentVector c = new ConcurrentVector(4, 2);
 //        c.set(0, 1);
-//        c.set(1, 5);
+//        c.set(1, 2);
 //        c.set(2, 3);
-//        c.set(3, 9);
-//        double max = c.max();
+//        c.set(3, 4);
+//        double prod = c.prod(s);
 
         // Norm
 //        SequentialVector s = new SequentialVector(4);
@@ -118,26 +122,12 @@ public class Main {
 //        c.set(3, 55);
 //        double cNorm = c.norm();
 
-        // Prod
-        SequentialVector s = new SequentialVector(4);
-        s.set(0, 1);
-        s.set(1, 2);
-        s.set(2, 3);
-        s.set(3, 4);
-
-        SequentialVector ss = new SequentialVector(4);
-        ss.set(0, 1);
-        ss.set(1, 2);
-        ss.set(2, 3);
-        ss.set(3, 4);
-
-        double prodA = s.prod(ss);
-
-        ConcurrentVector c = new ConcurrentVector(4, 2);
-        c.set(0, 1);
-        c.set(1, 2);
-        c.set(2, 3);
-        c.set(3, 4);
-        double prodB = c.prod(s);
+        // Max
+//        ConcurrentVector c = new ConcurrentVector(4, 2);
+//        c.set(0, 1);
+//        c.set(1, 5);
+//        c.set(2, 3);
+//        c.set(3, 9);
+//        double max = c.max();
     }
 }
